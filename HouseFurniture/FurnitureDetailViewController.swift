@@ -23,12 +23,14 @@ class FurnitureDetailViewController: UIViewController, UIImagePickerControllerDe
             choosePhotoButton.setImage(image, for: .normal)
         } else {
             choosePhotoButton.setTitle("Choose Image", for: .normal)
+            choosePhotoButton.setTitleColor(UIColor.black, for: .normal)
             choosePhotoButton.setImage(nil, for: .normal)
         }
         
         furnitureTitleLabel.text = furniture.name
         furnitureDescriptionLabel.text = furniture.description
     }
+
     
     @IBAction func choosePhotoButtonTapped(_ sender: Any) {
         let imagePicker = UIImagePickerController()
@@ -56,4 +58,19 @@ class FurnitureDetailViewController: UIViewController, UIImagePickerControllerDe
         }
         present(alertController, animated: true, completion: nil)
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
+        furniture?.imageData = selectedImage.pngData()
+        dismiss(animated: true, completion: nil)
+        updateView()
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func actionButtonTapped(_ sender: Any) {
+    }
 }
+
