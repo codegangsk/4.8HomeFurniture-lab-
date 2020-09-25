@@ -1,10 +1,10 @@
 
 import UIKit
 
-class FurnitureDetailViewController: UIViewController {
+class FurnitureDetailViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var furniture: Furniture?
-    
+
     @IBOutlet var choosePhotoButton: UIButton!
     @IBOutlet var furnitureTitleLabel: UILabel!
     @IBOutlet var furnitureDescriptionLabel: UILabel!
@@ -31,11 +31,29 @@ class FurnitureDetailViewController: UIViewController {
     }
     
     @IBAction func choosePhotoButtonTapped(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
         
-    }
-
-    @IBAction func actionButtonTapped(_ sender: Any) {
+        let alertController = UIAlertController(title: "Choose Image source", message: nil, preferredStyle: .actionSheet)
         
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
+                action in imagePicker.sourceType = .camera
+                self.present(imagePicker, animated: true, completion: nil)
+            })
+            alertController.addAction(cameraAction)
+        }
+        
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let photoLibraryAction = UIAlertAction(title: "photo library", style: .default, handler: {
+                action in imagePicker.sourceType = .photoLibrary
+                self.present(imagePicker, animated: true, completion: nil)
+            })
+            alertController.addAction(photoLibraryAction)
+        }
+        present(alertController, animated: true, completion: nil)
     }
-    
 }
