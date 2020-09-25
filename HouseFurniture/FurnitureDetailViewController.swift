@@ -70,7 +70,12 @@ class FurnitureDetailViewController: UIViewController, UIImagePickerControllerDe
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func actionButtonTapped(_ sender: Any) {
+    @IBAction func actionButtonTapped(_ sender: UIButton) {
+        guard let image = furniture?.imageData else { return }
+        let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        activityController.popoverPresentationController?.sourceView = sender
+        
+        present(activityController, animated: true, completion: nil)
     }
 }
 
